@@ -19,8 +19,9 @@ class DB():
         self.cur = self.conn.cursor()
     
     def select(self, key):
-        res = self.cur.execute(f"select * from kvdb where key = '{key}';").fetchall()
-        return res
+        c = self.cur.execute(f"select * from kvdb where key = '{key}';")
+        result = [dict(row) for row in c.fetchall()]
+        return result
 
     def insert(self, k, v):
         self.cur.execute(f"insert into kvdb values ('{k}','{v}');")

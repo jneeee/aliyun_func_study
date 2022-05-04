@@ -1,2 +1,3 @@
 target
 .s
+*__pycache__
