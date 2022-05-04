@@ -138,8 +138,8 @@ def b64_to_hex(a):
     return d
 
 def runner(event):
-    if not all([os.environ.get('phone'), os.environ.get('189pswd')]):
+    if not all([os.environ.get('phone'), os.environ.get('pswd189')]):
         log.error('phone or passwd is None, do nothing!')
         return
-    res = CheckIn(os.environ.get('phone'), os.environ.get('189pswd')).check_in()
+    res = CheckIn(os.environ.get('phone'), os.environ.get('pswd189')).check_in()
     return res

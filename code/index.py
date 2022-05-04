@@ -3,12 +3,11 @@ import json
 
 from utils.logger import log
 from utils.db import DB
-import task
+from task.checkin189 import runner as runner189
 
 def initializer(context):
     global dbclient
     dbclient = DB()
-    dbclient.insert('key1', 'value2')
 
 def preStop(context):
     dbclient.close()
@@ -18,24 +17,25 @@ def preStop(context):
 def process189ret(ret):
     # 'checkin189' : {'time':x, 'checkin_space':x, 'lottery_space':x, 'total':x}
     before = dbclient.select('checkin189')
-    if len(before) == 0:
-        cur = dict()
-        cur['checkin189'] = ret
-        cur['checkin189']['tital'] = sum(v for k,v in ret if k != 'time')
+    if not before:
+        ret['total'] = sum([v for k,v in ret.items() if k != 'time'])
+        cur = ret
     else:
-        cur = json.loads(before[0].get('checkin189'))
-        cur['total'] += sum(v for k,v in ret if k != 'time')
+        cur = before.get('checkin189')
+        cur['total'] += sum([v for k,v in ret.items() if k != 'time'])
         cur.update(ret)
     dbclient.insert('checkin189', cur)
-    log.info(f'store in db: cur: {cur}')
+    log.info(f'store in db: "checkin189": {cur}')
 
-def handler(event):
+def handler(event, context):
     log.info(f'run event: {event}')
     res = []
-    for action in event.get('actions'):
-        ret = getattr(task, action).runner(event)
-        if action == 'checkin189':
-            process189ret(ret)
-        res.append(ret)
+    event = json.loads(event)
+    if isinstance(event.get('payload'), dict):
+        for action in event.get('payload').get('actions'):
+            if action == 'checkin189':
+                ret = runner189(event)
+                process189ret(ret)
+                res.append(ret)
     log.info(f'Handler over, res: {res}')
     return res

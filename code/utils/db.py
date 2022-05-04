@@ -1,6 +1,6 @@
 import sqlite3
 import os
-
+import json
 
 class DB():
 
@@ -19,12 +19,17 @@ class DB():
         self.cur = self.conn.cursor()
     
     def select(self, key):
-        c = self.cur.execute(f"select * from kvdb where key = '{key}';")
-        result = [dict(row) for row in c.fetchall()]
-        return result
+        ret = self.cur.execute(f"select * from kvdb where key = '{key}';")
+        data = {}
+        for k, v in ret.fetchall():
+            data[k] = json.loads(v)
+        return data
 
     def insert(self, k, v):
-        self.cur.execute(f"insert into kvdb values ('{k}','{v}');")
+        try:
+            self.cur.execute(f"insert into kvdb values ('{k}','{json.dumps(v)}');")
+        except sqlite3.IntegrityError:
+            self.cur.execute(f"update kvdb set value = '{json.dumps(v)}' where key = '{k}';")
         self.conn.commit()
 
     def delete(self, key):
