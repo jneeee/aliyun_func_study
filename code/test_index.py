@@ -5,6 +5,8 @@ from index import process189ret
 from index import initializer
 import utils.db
 
+from task.BiliExp import runner as runner_b
+
 class test_indexhandle(unittest.TestCase):
 
     def setUp(self) -> None:

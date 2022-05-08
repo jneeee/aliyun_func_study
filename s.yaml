@@ -47,7 +47,12 @@ vars: # 全局变量
         - serverAddr: 31378489f7-esp70.cn-shanghai.nas.aliyuncs.com
           nasDir: /
           fcDir: /home/ubuntu
-
+    logConfig:
+      project: aliyun-fc-cn-shanghai-e8095dc2-df4d-5153-bc9a-92a7eacf99ac
+      logstore: function-log
+      enableRequestMetrics: true
+      enableInstanceMetrics: true
+      logBeginRule: None
 services:
   helloworld: # 业务名称/模块名称
     # 如果只想针对 helloworld 下面的业务进行相关操作，可以在命令行中加上 helloworld，例如：
@@ -74,13 +79,25 @@ services:
         codeUri: ./code
         handler: index.handler
         memorySize: 128
-        timeout: 10
+        timeout: 60
         initializationTimeout: 10     # 初始化方法超时时间
         initializer: index.initializer # 初始化方法
         instanceLifecycleConfig:      # 扩展函数
           preStop:                    # PreStop 函数
             handler: index.preStop        # 函数入口
             timeout: 10               # 超时时间
+        environmentVariables:
+          phone: 'xxxx'
+          pswd189: 'xxxx'
+        layers: ["af58d64a4e8f75b81cb8f31ff4b4c1a8#flask_requests_rsa#6"]
+        triggers:
+          - name: checkin189fromyml            # 触发器名称
+            type: timer                   # 触发器类型
+            config:                       # 触发器配置，包括OSS触发器, Log触发器, Log触发器, Timer触发器, Http触发器, MNS触发器, CDN触发器
+              cronExpression: '45 48 4 * * *' # 时间触发器表达式，支持两种设置：@every、cron 表达式
+              enable: true                  # 是否启用该触发器
+              payload: {"actions": ["checkin189"]}
+
   next-function:
     component: fc
     props:
@@ -95,3 +112,10 @@ services:
         memorySize: 128
         timeout: 10
         layers: ["af58d64a4e8f75b81cb8f31ff4b4c1a8#flask_requests_rsa#6"]
+        initializationTimeout: 10     # 初始化方法超时时间
+        initializer: app.initializer # 初始化方法
+        instanceLifecycleConfig:      # 扩展函数
+          preStop:                    # PreStop 函数
+            handler: app.preStop        # 函数入口
+            timeout: 10               # 超时时间
+
