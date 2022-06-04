@@ -1,4 +1,5 @@
 HTTP tigger evirsion
+```
     '''{'LD_LIBRARY_PATH': '/code/:/code//lib:/usr/local/lib', 
     'SIGMA_APP_NAME': 'fn-', 
     'LANG': 'C.UTF-8', 
@@ -50,3 +51,16 @@ HTTP tigger evirsion
     'HTTP_X_FC_FUNCTION_HANDLER': 'index.handler', 
     'fc.context': <fc_rapis_context.FCContext object at 0x7f8e47d100a0>}
     '''
+```
+
+
+原生 logging 在日志服务的内容：
+```
+serviceName:BiliExp
+functionName:crontask
+instanceID:c-627ec42d-de6aecb79ea04306bb44
+message:2022-05-13T20:49:00.195Z 747b3ae9-3dc4-489a-9d7b-a2728751f2ac [INFO] 李杰米: 参与(生活改造计划·第三期 6.30)活动第(1/1)次，结果为(未中奖0)
+qualifier:LATEST
+versionId:
+```
+__topic__: BiliExp 

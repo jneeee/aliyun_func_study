@@ -74,9 +74,9 @@ services:
       service: ${vars.service}
       function:
         name: crontask
-        description: 'hello world by serverless devs'
+        description: 'crontask checkin'
         runtime: python3.9
-        codeUri: ./code
+        codeUri: ./crontask
         handler: index.handler
         memorySize: 128
         timeout: 60
@@ -96,7 +96,7 @@ services:
             config:                       # 触发器配置，包括OSS触发器, Log触发器, Log触发器, Timer触发器, Http触发器, MNS触发器, CDN触发器
               cronExpression: '45 48 4 * * *' # 时间触发器表达式，支持两种设置：@every、cron 表达式
               enable: true                  # 是否启用该触发器
-              payload: {"actions": ["checkin189"]}
+              payload: "{\"actions\": [\"b_checkin\", \"checkin189\", \"smzdm\"]}"
 
   next-function:
     component: fc
