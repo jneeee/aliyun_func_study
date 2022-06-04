@@ -1,4 +1,8 @@
 target
-.s
-*__pycache__
+.s/
 s.yaml
+test*
+.stestr/
+__pycache__/
+*.db
+.vscode/
