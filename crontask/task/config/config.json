@@ -1,0 +1,221 @@
+{
+    "version": "1.2.1",
+    "http_header": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+    	"Referer": "https://www.bilibili.com/",
+        "Connection": "keep-alive"
+    },
+    "default": {
+        "vip_task": {
+            "enable": false,
+            "receiveDay": 1,
+            "BpCharge": {
+                "charge": 5,
+                "Bp2Gold": 0,
+                "Bp2Coupons": 0
+            },
+            "chargeDay": 0
+        },
+        "group_sign_task": true,
+        "xliveSign_task": true,
+        "xlive_bag_send_task": {
+            "enable": true,
+            "room_id": 1535258,
+            "expire": 172800
+        },
+        "xlive_heartbeat_task": {
+            "enable": false,
+            "medal_room": true,
+            "live_status": [
+                0,
+                1,
+                2
+            ],
+            "room_id": [],
+            "send_msg": "",
+            "timeout": 16
+        },
+        "xlive_anchor_task": {
+            "enable": false,
+            "anchor_type": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    1,
+                    0
+                ]
+            ],
+            "delay": 0,
+            "room_filter": [],
+            "gift_filter": [],
+            "danmu_filter": [],
+            "price_limit": 0, 
+            "unfollow": true, 
+            "follow_group": "", 
+            "clean_group_interval": 0, 
+            "search_interval": 300, 
+            "search_areas": [ 
+                {
+                    "paid": 1,
+                    "aid": 0,
+                    "sort": "",
+                    "ps": 40
+                },
+                {
+                    "paid": 2,
+                    "aid": 0,
+                    "sort": "",
+                    "ps": 40
+                },
+                {
+                    "paid": 3,
+                    "aid": 0,
+                    "sort": "",
+                    "ps": 40
+                }
+            ],
+            "timeout": 2700, 
+            "run_once": true 
+        },
+        "coin_task": { 
+            "enable": false, 
+            "num": 5, 
+            "target_exp": 28800, 
+            "delay": [
+                0,
+                2
+            ], 
+            "do_task": [
+                1
+            ], 
+            "coin": { 
+                "video": 5, 
+                "article": 0 
+                
+            },
+            "groupTag": "特别关注", 
+            "up": [], 
+            "search": { 
+                "马保国": { 
+                    "num": 5, 
+                    "order": 0, 
+                    "duration": 0, 
+                    "tids": 0 
+                },
+                "特朗普": {} 
+                
+            }
+        },
+        "watch_task": true, 
+        "share_task": true, 
+        "silver2coin_task": true, 
+        "lottery_task": { 
+            "enable": false, 
+            "reply": [
+                "从未中奖，从未放弃[doge]",
+                "支持支持"
+            ], 
+            "repost": [
+                "从未中奖，从未放弃[doge]",
+                "支持支持"
+            ], 
+            
+            "keywords": [
+                "^((?!恭喜).)*#互动抽奖#((?!恭喜).)*$",
+                "^((?!恭喜).)*#抽奖#((?!恭喜).)*$",
+                ".*(转|抽|评).*(转|抽|评).*(转|抽|评).*"
+            ],
+            "time_quantum": [
+                -43200,
+                43200
+            ], 
+            "delay": [
+                6,
+                8
+            ],
+            "repost_by_others": [], 
+            "force_follow": false 
+        },
+        "msg_notify_task": { 
+            "enable": false, 
+            "black_keywords": [
+                "欢迎",
+                "感谢",
+                "关注"
+            ] 
+        },
+        "clean_dynamic_task": { 
+            "enable": false, 
+            "black_keywords": [], 
+            "unfollowed": false, 
+            "days_range": [
+                7,
+                30
+            ] 
+        },
+        "manga_sign_task": true, 
+        "exchangeCoupons_task": { 
+            "enable": false, 
+            "num": 0 
+        },
+        "manga_vip_reward_task": { 
+            "enable": false, 
+            "days": [
+                1
+            ] 
+        },
+        "manga_auto_buy_task": { 
+            "enable": false, 
+            "mode": 1, 
+            "filter": "25900|1-30,35,55;25966|5,15,35-" 
+        },
+        "judgement_task": { 
+            "enable": false, 
+            "run_once": true, 
+            "params": { 
+                "vote": 4, 
+                "attr": 0 
+            },
+            "vote_num": 20, 
+            "check_interval": 420, 
+            "timeout": 2700 
+        },
+        "activity_task": {
+            "enable": true,
+            "path": "./task/config/activities.json",
+            "activities": []
+        }
+    },
+    "users": [{
+        "cookieDatas": {
+            "SESSDATA": "c5ad957d%2C1657469652%2C0f850*11",
+            "bili_jct": "c1de0614de13c3e4ee44f75456862678",
+            "DedeUserID": "6197121",
+            "LIVE_BUVID": "AUTO4516272055043273"
+        },
+        "show_name": "",
+        "tasks": {
+        }
+    }],
+    "webhook": {
+        "http_header": {"User-Agent":"Mozilla/5.0"},
+        "variable": {
+            "msg_simple": null,
+            "title": "aliyun函数消息推送",
+            "SendKey": "SCT146853Tyl3KOZEDPKZyMP3ymZlXT8fK"
+        },
+        "hooks": [{
+            "enable": true,
+            "name": "server酱Turbo版消息推送",
+            "msg_separ": "\n\n",
+            "method": 1,
+            "url": "https://sctapi.ftqq.com/{SendKey}.send",
+            "params": {
+                "text": "{title}",
+                "desp": "{msg_simple}" 
+            }
+        }]
+    }
+}
