@@ -21,9 +21,9 @@ zip -r python.zip python/
 5. 去网页或者用s工具调试
 
 ## 2 Todo
-- [] refact with apscheduler
-- [] acfun task
-- [] ~~use aliyun.log(index, topic, ...)~~ 云函数的 stdout 和 logging 会自动储存到日志服务，所以这个属于脱裤子放屁。可以考虑实现 pull_log, ref [日志服务 Python sdk 示例](https://github.com/aliyun/aliyun-log-python-sdk/blob/master/tests/sample.py?spm=a2c4g.11186623.0.0.38f95c2a9X6i3c&file=sample.py)
+- [ ] #1
+- [ ] acfun task
+- [ ] ~~use aliyun.log(index, topic, ...)~~ 云函数的 stdout 和 logging 会自动储存到日志服务，所以这个属于脱裤子放屁。可以考虑实现 pull_log, ref [日志服务 Python sdk 示例](https://github.com/aliyun/aliyun-log-python-sdk/blob/master/tests/sample.py?spm=a2c4g.11186623.0.0.38f95c2a9X6i3c&file=sample.py)
 - [x] add task_runned flag to db;
 - [x] 大任务异步执行；
 - ~~抽奖改单次，不sleep(可以显著降低计算资源)~~
