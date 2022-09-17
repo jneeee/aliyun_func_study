@@ -2,13 +2,12 @@ import base64
 import os
 import re
 import time
-import asyncio
 
 import requests
 import rsa
 
-from utils.logger import log
-from utils.db import dbclient
+from crontask.utils.logger import log
+from crontask.utils.db import dbclient
 
 
 class CheckIn(object):
@@ -138,26 +137,35 @@ def b64_to_hex(a):
         d += _chr(c << 2)
     return d
 
-def runner():
-    if not all([os.environ.get('phone'), os.environ.get('pswd189')]):
-        log.error('phone or passwd is None, do nothing!')
-        return
-    res = CheckIn(os.environ.get('phone'), os.environ.get('pswd189')).check_in()
-    process189ret(res)
-    return res
 
-def process189ret(ret):
-    # 'checkin189' : {'time':x, 'checkin_space':x, 'lottery_space':x, 'total':x}
-    if not ret:
-        log.error(f'process189ret get empty ret')
-        return
-    before = dbclient.select('checkin189')
-    if not before:
-        ret['total'] = sum([v for k,v in ret.items() if k != 'time'])
-        cur = ret
-    else:
-        cur = before
-        cur['total'] += sum([v for k,v in ret.items() if k != 'time'])
-        cur.update(ret)
-    dbclient.insert('checkin189', cur)
-    log.info(f'store in db: "checkin189": {cur}')
+from crontask.task.base import Task
+
+class checkin189cloud(Task):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def run(self):
+        login_info = [os.environ.get('phone'), os.environ.get('pswd189')]
+        if not all(login_info):
+            log.error('phone or passwd is None, skip task!')
+            return
+        res = CheckIn(*login_info).check_in()
+        self._process189ret(res)
+        return res
+
+    def _process189ret(self, ret):
+        # 'checkin189' : {'time':x, 'checkin_space':x, 'lottery_space':x, 'total':x}
+        if not ret:
+            log.error(f'process189ret get empty ret')
+            return
+        before = dbclient.select('checkin189')
+        if not before:
+            ret['total'] = sum([v for k,v in ret.items() if k != 'time'])
+            cur = ret
+        else:
+            cur = before
+            cur['total'] += sum([v for k,v in ret.items() if k != 'time'])
+            cur.update(ret)
+
+        dbclient.insert('checkin189', cur)
+        log.info(f'store in db: "checkin189": {cur}')

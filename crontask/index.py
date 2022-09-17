@@ -8,7 +8,7 @@ from utils.db import dbclient
 from task import checkin189
 from task import BiliExp
 from task import smzdm
-
+from task.acfun import acfun
 
 def initializer(context):
     pass
@@ -23,6 +23,7 @@ def dailyhandler(event):
         'Cloud189': checkin189,
         'Bilibili': BiliExp,
         'Smzdm': smzdm,
+        # 'acfun': acfun,
     }
     # dailytask: {date: 20220529, task_d: {checkin189: 0 ...}}
     dailytask = dbclient.select('dailytask')
@@ -35,6 +36,8 @@ def dailyhandler(event):
     for task, run_count in dailytask['task_d'].items():
         if not run_count:
             if task == 'Bilibili':
+                # Due to asycnio, Bilibili run in main thread.
+                continue
                 func_d.get(task).runner()
             else:
                 threading.Thread(target=func_d.get(task).runner).start()

@@ -1,7 +1,6 @@
 target
 .s/
 s.yaml
-test*
 .stestr/
 __pycache__/
 *.db
