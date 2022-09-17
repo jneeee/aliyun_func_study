@@ -4,7 +4,7 @@ from .push_message_task import webhook
 from random import randint, choice
 import json, time, asyncio, re
 from typing import Awaitable
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 async def lottery_task(biliapi: asyncbili, 
                        task_config: dict    #配置

@@ -4,7 +4,7 @@ from asyncio import TimeoutError, sleep
 from concurrent.futures import CancelledError
 from async_timeout import timeout
 from typing import Awaitable, Tuple
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 voteInfo = ("未投票", "封禁", "否认", "弃权", "删除")
 

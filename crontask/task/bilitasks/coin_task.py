@@ -1,7 +1,7 @@
 from BiliClient import asyncbili
 from .push_message_task import webhook
 import asyncio, random
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 async def coin_task(biliapi: asyncbili, 
                     task_config: dict

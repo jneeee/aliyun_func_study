@@ -1,7 +1,7 @@
 from aiohttp import ClientSession, ClientTimeout
 import asyncio
 from io import StringIO
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 class WebHook:
     '''消息推送'''

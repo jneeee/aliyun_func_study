@@ -5,7 +5,7 @@ from asyncio import TimeoutError, sleep, wait, ensure_future
 from concurrent.futures import CancelledError
 from async_timeout import timeout
 from typing import Awaitable, AsyncGenerator, Tuple, Union, List, Iterator
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 
 async def xlive_heartbeat_task(biliapi: asyncbili,

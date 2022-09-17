@@ -3,7 +3,7 @@ from .push_message_task import webhook
 from typing import Coroutine
 from datetime import datetime, timedelta
 from calendar import monthrange
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 async def vip_task(biliapi: asyncbili,
                    task_config: dict

@@ -1,6 +1,6 @@
 from BiliClient import asyncbili
 from .push_message_task import webhook
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 uid_map = {
     17561219: "直播小喇叭"

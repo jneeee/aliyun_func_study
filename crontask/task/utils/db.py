@@ -77,4 +77,6 @@ class DB():
     def commit(self):
         self.conn.commit()
 
-dbclient = DB()
+kvdb = DB()
+
+__all__ = ['kvdb']

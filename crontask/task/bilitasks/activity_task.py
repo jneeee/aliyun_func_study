@@ -3,8 +3,8 @@ import asyncio, json
 import collections
 
 from BiliClient import asyncbili
-from utils.db import DB
-from utils.logger import log as logging
+from task.utils.db import DB
+from task.utils.logger import log as logging
 
 
 activity_task_lock = asyncio.Lock()

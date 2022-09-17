@@ -5,7 +5,7 @@ from aiohttp.client_exceptions import ServerDisconnectedError
 from concurrent.futures import CancelledError
 from async_timeout import timeout
 from typing import AsyncGenerator, Awaitable, Dict, Any, List, Union, Tuple
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 
 async def xlive_anchor_task(biliapi: asyncbili,

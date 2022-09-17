@@ -1,6 +1,6 @@
 from BiliClient import asyncbili
 from .push_message_task import webhook
-from utils.logger import log as logging
+from task.utils.logger import log as logging
 
 
 async def watch_task(biliapi: asyncbili) -> None:
