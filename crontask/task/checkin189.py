@@ -11,7 +11,7 @@ from task.utils.db import kvdb
 from task.base import Jobadapter
 
 
-class CheckIn(object):
+class CheckIn:
     client = requests.Session()
     login_url = "https://cloud.189.cn/api/portal/loginUrl.action?" \
                 "redirectURL=https://cloud.189.cn/web/redirect.html?returnURL=/main.action"
@@ -95,28 +95,26 @@ class CheckIn(object):
             "mailSuffix": "@189.cn",
             "paramId": param_id,
         }
-        r = self.client.post(self.submit_login_url, data=data, headers=headers, timeout=5)
-        log.info(r.json()["msg"])
-        if '图形验证码错误' in r.json()["msg"]:
+        resp = self.client.post(self.submit_login_url,
+                             data=data, headers=headers, timeout=5).json()
+        log.info(f'checkin189: {resp["msg"]}')
+        if '图形验证码错误' in resp["msg"]:
             raise Exception("账户风控中，请手动登录后重试")
-        redirect_url = r.json()["toUrl"]
-        self.client.get(redirect_url)
-
-
-def _chr(a):
-    return "0123456789abcdefghijklmnopqrstuvwxyz"[a]
-
-
-b64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+        redirect_url = resp.get("toUrl")
+        if redirect_url:
+            self.client.get(redirect_url)
 
 
 def b64_to_hex(a):
+    def _chr(c):
+        return "0123456789abcdefghijklmnopqrstuvwxyz"[c]
+    B64MAP = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
     d = ""
     e = 0
     c = 0
     for i in range(len(a)):
         if list(a)[i] != "=":
-            v = b64map.index(list(a)[i])
+            v = B64MAP.index(list(a)[i])
             if 0 == e:
                 e = 1
                 d += _chr(v >> 2)

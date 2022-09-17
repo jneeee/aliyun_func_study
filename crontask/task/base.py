@@ -3,7 +3,7 @@ import abc
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
-from pytz import utc
+import pytz
 
 # from task.utils.logger import log
 # from task.utils.db import dbclient
@@ -40,5 +40,5 @@ def get_scheduler():
         'max_instances': 3,
     }
     scheduler = BackgroundScheduler(executors=executors, 
-        job_defaults=job_defaults, timezone=utc)
+        job_defaults=job_defaults, timezone=pytz.timezone('Asia/Shanghai'))
     return scheduler
