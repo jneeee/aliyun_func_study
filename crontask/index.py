@@ -3,26 +3,23 @@ import json
 import threading
 import time
 
-from utils.logger import log, push_to_wx
-from utils.db import kvdb
-from task import checkin189
-from task import BiliExp
-from task import smzdm
-from task.acfun import acfun
+import task
+from task.base import get_scheduler
+from task.utils.logger import log, push_to_wx
+from task.utils.db import kvdb
 
 def initializer(context):
     pass
+
 
 def preStop(context):
     push_to_wx(log.msg_box)
     kvdb.close()
     log.debug('db closed!')
 
+
 def dailyhandler(event):
     func_d = {
-        'Cloud189': checkin189,
-        'Bilibili': BiliExp,
-        'Smzdm': smzdm,
         # 'acfun': acfun,
     }
     # dailytask: {date: 20220529, task_d: {checkin189: 0 ...}}
@@ -46,9 +43,31 @@ def dailyhandler(event):
             log.info(f'{task} already runned today')
     kvdb.insert('dailytask', dailytask)
 
+
+def _dailyhandler(payload, sched):
+    for job in getattr(task, payload):
+        job_ins = job()
+        sched.add_job(job_ins.run, id=job_ins.name)
+    sched.start()
+    print('sched start')
+    sched.shutdown()
+
+
+def _run_task_list(payload, sched):
+    for job_name in payload:
+        sched.add_job(getattr(task, job_name).run, id=job_name)
+    sched.start()
+    sched.shutdown()
+
+
 def handler(event, context):
     # type(event): <class 'bytes'>
     event = json.loads(event)
     log.info(f'Handler event: {event}')
-    if 'dailytask' in event.get('payload'):
-        dailyhandler(event)
+    payload = event.get('payload')
+    sched = get_scheduler()
+    if 'dailytask' == payload:
+        _dailyhandler(payload, sched)
+    elif isinstance(payload, list):
+        # run a task list
+        _run_task_list(payload, sched)

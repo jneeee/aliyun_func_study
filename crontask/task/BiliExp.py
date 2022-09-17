@@ -5,9 +5,9 @@ import random, argparse, datetime
 from importlib import import_module
 from collections import OrderedDict
 
-from . import BiliClient
-from . import bilitasks
-from utils.logger import log as logging
+from task import BiliClient
+from task import bilitasks
+from task.utils.logger import log as logging
 
 # /code/task
 sys.path.append(f'{os.getcwd()}/task')

@@ -13,7 +13,7 @@ class TestCheckin189(unittest.TestCase):
     
     def test_run_task(self):
         print(f'task name: {self.task.name}')
-        with mock.patch('crontask.utils.db.kvdb', self.db):
+        with mock.patch('task.utils.db.kvdb', self.db):
             self.task._process189ret = mock.MagicMock()
             self.task.run()
             # 还没账号环境变量

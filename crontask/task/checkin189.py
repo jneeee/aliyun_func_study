@@ -6,8 +6,9 @@ import time
 import requests
 import rsa
 
-from utils.logger import log
-from utils.db import kvdb
+from task.utils.logger import log
+from task.utils.db import kvdb
+from task.base import Jobadapter
 
 
 class CheckIn(object):
@@ -138,9 +139,7 @@ def b64_to_hex(a):
     return d
 
 
-from crontask.task.base import Task
-
-class checkin189cloud(Task):
+class checkin189cloud(Jobadapter):
     def __init__(self) -> None:
         super().__init__()
 

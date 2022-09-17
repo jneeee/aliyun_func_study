@@ -1,6 +1,6 @@
 # coding=utf-8
 import requests
-from utils.logger import log
+from task.utils.logger import log
 
 
 class SMZDM_Bot(object):
