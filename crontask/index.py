@@ -4,7 +4,7 @@ import threading
 import time
 
 from utils.logger import log, push_to_wx
-from utils.db import dbclient
+from utils.db import kvdb
 from task import checkin189
 from task import BiliExp
 from task import smzdm
@@ -15,8 +15,8 @@ def initializer(context):
 
 def preStop(context):
     push_to_wx(log.msg_box)
-    dbclient.close()
-    log.info('db closed!')
+    kvdb.close()
+    log.debug('db closed!')
 
 def dailyhandler(event):
     func_d = {
@@ -26,7 +26,7 @@ def dailyhandler(event):
         # 'acfun': acfun,
     }
     # dailytask: {date: 20220529, task_d: {checkin189: 0 ...}}
-    dailytask = dbclient.select('dailytask')
+    dailytask = kvdb.select('dailytask')
     cur_time = time.strftime("%Y%m%d")
     if not dailytask or cur_time != dailytask.get('date'):
         dailytask = {
@@ -44,7 +44,7 @@ def dailyhandler(event):
             dailytask['task_d'][task] += 1
         else:
             log.info(f'{task} already runned today')
-    dbclient.insert('dailytask', dailytask)
+    kvdb.insert('dailytask', dailytask)
 
 def handler(event, context):
     # type(event): <class 'bytes'>
@@ -52,4 +52,3 @@ def handler(event, context):
     log.info(f'Handler event: {event}')
     if 'dailytask' in event.get('payload'):
         dailyhandler(event)
-

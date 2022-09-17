@@ -6,8 +6,8 @@ import time
 import requests
 import rsa
 
-from crontask.utils.logger import log
-from crontask.utils.db import dbclient
+from utils.logger import log
+from utils.db import kvdb
 
 
 class CheckIn(object):
@@ -158,7 +158,7 @@ class checkin189cloud(Task):
         if not ret:
             log.error(f'process189ret get empty ret')
             return
-        before = dbclient.select('checkin189')
+        before = kvdb.select('checkin189')
         if not before:
             ret['total'] = sum([v for k,v in ret.items() if k != 'time'])
             cur = ret
@@ -167,5 +167,5 @@ class checkin189cloud(Task):
             cur['total'] += sum([v for k,v in ret.items() if k != 'time'])
             cur.update(ret)
 
-        dbclient.insert('checkin189', cur)
+        kvdb.insert('checkin189', cur)
         log.info(f'store in db: "checkin189": {cur}')
