@@ -8,6 +8,7 @@ from task.base import get_scheduler
 from task.utils.logger import log, push_to_wx
 from task.utils.db import kvdb
 
+
 def initializer(context):
     pass
 
@@ -49,14 +50,18 @@ def _dailyhandler(payload, sched):
         job_ins = job()
         sched.add_job(job_ins.run, id=job_ins.name)
     sched.start()
-    print('sched start')
+    time.sleep(0.1)
     sched.shutdown()
 
 
 def _run_task_list(payload, sched):
     for job_name in payload:
-        sched.add_job(getattr(task, job_name).run, id=job_name)
+        try:
+            sched.add_job(getattr(task, job_name).run, id=job_name)
+        except AttributeError:
+            log.warning(f"Cann't find job {job_name}")
     sched.start()
+    time.sleep(0.1)
     sched.shutdown()
 
 
@@ -66,7 +71,7 @@ def handler(event, context):
     log.info(f'Handler event: {event}')
     payload = event.get('payload')
     sched = get_scheduler()
-    if 'dailytask' == payload:
+    if payload == 'dailytask':
         _dailyhandler(payload, sched)
     elif isinstance(payload, list):
         # run a task list

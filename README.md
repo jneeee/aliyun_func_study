@@ -9,11 +9,12 @@
 1. 安装[serverless-devs](https://docs.serverless-devs.com/serverless-devs/quick_start)
 2. 添加需要的层(layer)
 层是函数计算里用来管理函数运行依赖的方式 [构建层 - 阿里云文档](https://help.aliyun.com/document_detail/193057.html) 。
-需要本地创建一个 python文件夹，把依赖装进去，然后打包上传：
+使用 s 工具上传层的方式如下，在 s project 目录下执行：
 ```bash
-mkdir python
-pip instsall -t python/ requests rsa flask jinja2
-zip -r python.zip python/
+mkdir -p code/python
+pip install flask -t code/python
+pip install requests rsa -t code/python
+s next-function layer publish --layer-name flask_requests_rsa --code ./code/
 ```
 *2022-8-21 09:58:07* 发现阿里云函数现在可以在线编辑 `requirements.txt` 在线构建。[Link](https://fcnext.console.aliyun.com/cn-shanghai/layers)
 

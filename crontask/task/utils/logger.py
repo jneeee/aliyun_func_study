@@ -9,7 +9,7 @@ class Singleton(object):
 
 class MyLogHandler(logging.Handler, Singleton):
     def __init__(self):
-        super(__class__, self).__init__()
+        super().__init__()
 
     def emit(self, record, push=True):
         try:
